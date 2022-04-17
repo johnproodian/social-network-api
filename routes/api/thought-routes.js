@@ -3,10 +3,10 @@ const {
     addThought
 } = require('../../controllers/thought-controller');
 
-// /api/thoughts
+// /api/thoughts/<userid>
     // Get all thoughts
     // Post to create new thought (incl. pushing the created thought's _id to the associated user's thoughts array field)
-    router.route('/')
+    router.route('/:userId')
         .post(addThought);
 
 // /api/thoughts/<thoughtId>
@@ -18,3 +18,6 @@ const {
 // /api/thoughts/:thoughtId/reactions
     // Post to create reaction stored in a single thought's reactions array field
     // Delete to pull and remove a reaction by the raction's reactionId
+
+
+module.exports = router;
