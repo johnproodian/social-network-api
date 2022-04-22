@@ -1,3 +1,4 @@
+const { json } = require('express/lib/response');
 const { User, Thought } = require('../models');
 
 const userController = {
@@ -57,6 +58,49 @@ const userController = {
         User.findOneAndDelete({ _id: params._id })
             .then(dbDeletedUser => res.json(dbDeletedUser))
             .catch(err => res.json(err));
+    },
+    addFriendById({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $push: {friends:  params.friendId }},
+            { new: true }
+        )
+            .then(dbNewFriend => {
+                if (!dbNewFriend) {
+                    res.status(404).json({ message: "No User by that id" });
+                    return;
+                }
+                res.json(dbNewFriend);
+            })
+            .catch(err => res.json(err));
+    },
+    deleteFriendById({ params }, res) {
+        User.findOneAndUpdate(
+                { _id: params.userId },
+                { $pull: { friends: params.friendId }},
+                { new: true }
+            )
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No user found with this id' });
+                    return
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.json(err));
+
+
+        //     {$pull: {friends: { _id: params.friendId } } },
+        //     { new: true }
+        // )
+        //     .then(deletedFriend => {
+        //         if (!deletedFriend) {
+        //             res.status(404).json({ message: "No user by that id" });
+        //             return;
+        //         }
+        //         res.json(deletedFriend);
+        //     })
+        //     .catch(err => res.json(err));
     }
 };
 

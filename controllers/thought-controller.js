@@ -49,8 +49,33 @@ const thoughtController = {
                 res.status(404).json({ message: "No thought with this id" })
             })
     },
-    updateThoughtById( { params }, res) {
-        
+    updateThoughtById( { params, body }, res) {
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId }, body, { new: true })
+            .then(dbThoughtData => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: "No thought with this id" })
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.json(err);
+            })
+    },
+    deleteThoughtById( { params }, res) {
+        console.log('params: ' + params);
+        console.log('params.bookId: ' + params.thoughtId );
+        Thought.findOneAndDelete({ _id: params.thoughtId })
+            .then(dbDeletedThought => {
+                if (!dbDeletedThought) {
+                    res.status(404).json({ message: "No thought with that id" })
+                    return;
+                }
+                res.json(dbDeletedThought);
+            })
+            .catch(err => res.json(err));
     }
 }
 
