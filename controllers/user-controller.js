@@ -5,11 +5,11 @@ const userController = {
         User.find({})
             .populate({
                 path: 'thoughts',
-                select: '__v'
+                select: '-__v'
             })
             .populate({
                 path: 'friends',
-                select: '__v'
+                select: '-__v'
             })
             .select('-__v')
             .sort({ _id: 'asc' })
@@ -29,7 +29,7 @@ const userController = {
         User.findOne({ _id: params._id })
             .populate({
                 path: 'thoughts',
-                select: '__v'
+                select: '-__v'
             })
             .populate({
                 path: 'friends',
