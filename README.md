@@ -10,7 +10,7 @@ This application is an API for a social network web application where users can 
 * JavaScript
 * Node.js
 * Express.js
-* MongoDB
+* NoSQL/MongoDB
 * Mongoose
 
 ## (Recently Learned) Skills I Used
